@@ -1,11 +1,18 @@
 name: Tests
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '10', '12' ]
+        node: [ '10', '12', '14' ]
     name: Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
@@ -13,5 +20,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - run: npm install
-      - run: npm test
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
